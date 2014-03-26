@@ -1,0 +1,4 @@
+django 1.6
+jingo
+var_dump
+cx_oracle
