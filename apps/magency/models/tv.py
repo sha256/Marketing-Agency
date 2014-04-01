@@ -12,7 +12,7 @@ class Television(models.Model):
 
 class Program(models.Model):
     title = models.CharField(max_length=200)
-    tv = models.ForeignKey(Television)
+    parent = models.ForeignKey(Television, db_column="tv_id", verbose_name="Television")
 
     class Meta:
         app_label = "magency"

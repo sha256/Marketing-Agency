@@ -1,3 +1,5 @@
+import cx_Oracle
+
 __author__ = 'sha256'
 
 
@@ -21,11 +23,12 @@ class StoredProcModel(models.Model):
         return [StoredProcModel(*row) for row in results]
 
     @staticmethod
-    def call_func(proc_name, params):
+    def call_func(proc_name, rettype, params):
         cur = connection.cursor()
-
-        cur.callproc(proc_name, params)
-        results = cur.fetchall()
+        cur = cur.callfunc(proc_name, rettype, params)
+        res = cur.fetchall()
         cur.close()
+        return res
 
-        return [StoredProcModel(*row) for row in results]
+    class Meta:
+        abstract = True

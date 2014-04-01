@@ -5,7 +5,7 @@ __author__ = 'sha256'
 from django.views.generic import View
 from django.shortcuts import render
 from django.core import urlresolvers
-from core.views.mixins import LoggedInMixin, AdminMixin, CSRFExemptMixin
+from core.views.mixins import LoggedInMixin, AdminMixin, CSRFExemptMixin, SuperUserMixin
 import json
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
@@ -46,6 +46,10 @@ class SmartViewWithNoCsrf(SmartView):
         return super(SmartViewWithNoCsrf, self).dispatch(request, *args, **kwargs)
 
 class SecuredView(LoggedInMixin, SmartView):
+    pass
+
+
+class SuperUserView(SuperUserMixin, SmartView):
     pass
 
 

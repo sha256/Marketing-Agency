@@ -1,6 +1,6 @@
 {% extends "magency/base.html" %}
 {% load form_attr %}
-{% block title %}{{ form1.instance|to_class_name }}{% endblock %}
+{% block title %}Edit {{ form1.instance|to_class_name }}{% endblock %}
 
 {% block content %}
     <div class="row-fluid">
@@ -9,7 +9,7 @@
             <div class="span6">
                 <div class="widget-box">
                     <div class="widget-header">
-                        <h4>Add New {{ form1.instance|to_class_name }}</h4>
+                        <h4>Edit {{ form1.instance|to_class_name }}</h4>
 
                         <span class="widget-toolbar">
                             <a href="#" data-action="collapse">

@@ -1,0 +1,142 @@
+CREATE OR REPLACE
+PROCEDURE BILLBOARDADS(
+	   foruser IN NUMBER,
+	   c_dbuser OUT SYS_REFCURSOR)
+IS
+BEGIN
+  OPEN c_dbuser FOR
+
+  SELECT a.ID,
+		a.TITLE,
+		a.VALIDITY,
+		COUNT_BILL(a.ID) as bill,
+		c.Name,
+		(SELECT COUNT(*) FROM
+					MAGENCY_BILLBOARDAD_BILLBOARDS nn
+					WHERE NN.BILLBOARD_ID = n.ID) as billboards
+
+	FROM MAGENCY_ADVERTISEMENT a
+	JOIN AUTH_USER c ON c.ID = a.COMPANY_ID
+	JOIN MAGENCY_BILLBOARDAD n on a.ID = n.ADVERTISEMENT_ID
+	WHERE ( foruser = 0 OR foruser != 0 AND c.id = foruser);
+
+END;
+/
+
+CREATE OR REPLACE
+PROCEDURE BILLS(
+	   foruser IN NUMBER,
+	   c_dbuser OUT SYS_REFCURSOR)
+IS
+BEGIN
+  OPEN c_dbuser FOR
+
+  SELECT
+		b.ID as ID,
+		ad.TITLE as TITLE,
+		c.NAME as NAME,
+		b.AMMOUNT as AMMOUNT,
+		b.PAID_BY as PAID_BY,
+		b.TIME as TIME
+	FROM MAGENCY_BILL b
+	JOIN MAGENCY_ADVERTISEMENT ad ON b.ADVERTISEMENT_ID = ad.ID
+	JOIN AUTH_USER c ON c.ID = ad.COMPANY_ID
+	WHERE ( foruser = 0 OR foruser != 0 AND c.id = foruser);
+
+END;
+/
+
+
+CREATE OR REPLACE
+PROCEDURE INTERNETADS(
+	   foruser IN NUMBER,
+	   c_dbuser OUT SYS_REFCURSOR)
+IS
+BEGIN
+  OPEN c_dbuser FOR
+
+  SELECT a.ID,
+		a.TITLE,
+		a.VALIDITY,
+		COUNT_BILL(a.ID) as bill,
+		c.Name,
+		(SELECT COUNT(*) FROM
+					MAGENCY_WEBSITEAD_WEBSITES nn
+					WHERE NN.WEBSITEAD_ID = n.ID) as websites
+
+	FROM MAGENCY_ADVERTISEMENT a
+	JOIN AUTH_USER c ON c.ID = a.COMPANY_ID
+	JOIN MAGENCY_WEBSITEAD n on a.ID = n.ADVERTISEMENT_ID
+	WHERE ( foruser = 0 OR foruser != 0 AND c.id = foruser);
+
+END;
+/
+
+
+CREATE OR REPLACE
+FUNCTION count_bill(ad_id NUMBER) RETURN NUMBER
+IS
+result NUMBER(10);
+BEGIN
+
+	SELECT SUM(b.ammount) INTO result FROM MAGENCY_BILL b WHERE b.ADVERTISEMENT_ID = ad_id;
+	RETURN result;
+
+END;
+/
+
+
+CREATE OR REPLACE
+PROCEDURE NEWSPAPERADS(
+	   foruser IN NUMBER,
+	   c_dbuser OUT SYS_REFCURSOR)
+IS
+BEGIN
+  OPEN c_dbuser FOR
+
+  SELECT a.ID,
+		a.TITLE,
+		a.VALIDITY,
+		COUNT_BILL(a.ID) as bill,
+		c.Name,
+		n.WIDTH,
+		n.HEIGHT,
+		n.COLOR,
+		(SELECT COUNT(*) FROM
+					MAGENCY_NEWSPAPERAD_NEWSPAPERS nn
+					WHERE NN.NEWSPAPERAD_ID = n.ID) as newspapers
+
+	FROM MAGENCY_ADVERTISEMENT a
+	JOIN AUTH_USER c ON c.ID = a.COMPANY_ID
+	JOIN MAGENCY_NEWSPAPERAD n on a.ID = n.ADVERTISEMENT_ID
+	WHERE ( foruser = 0 OR foruser != 0 AND c.id = foruser);
+
+END;
+/
+
+
+CREATE OR REPLACE
+PROCEDURE TELEVISIONADS(
+	   foruser IN NUMBER,
+	   c_dbuser OUT SYS_REFCURSOR)
+IS
+BEGIN
+  OPEN c_dbuser FOR
+
+  SELECT a.ID,
+		a.TITLE,
+		a.VALIDITY,
+		COUNT_BILL(a.ID) as bill,
+		c.Name,
+		n.DURATION,
+		(SELECT COUNT(*) FROM
+					MAGENCY_TELEVISIONAD_PROGRAMS nn
+					WHERE NN.PROGRAM_ID = n.ID) as televisions
+
+	FROM MAGENCY_ADVERTISEMENT a
+	JOIN AUTH_USER c ON c.ID = a.COMPANY_ID
+	JOIN MAGENCY_TELEVISIONAD n on a.ID = n.ADVERTISEMENT_ID
+	WHERE ( foruser = 0 OR foruser != 0 AND c.id = foruser);
+
+END;
+/

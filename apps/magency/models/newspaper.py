@@ -12,7 +12,7 @@ class Newspaper(models.Model):
 
 class Section(models.Model):
     title = models.CharField(max_length=200)
-    newspaper = models.ForeignKey(Newspaper)
+    parent = models.ForeignKey(Newspaper, db_column="newspaper_id", verbose_name="Newspaper")
 
     class Meta:
         app_label = "magency"

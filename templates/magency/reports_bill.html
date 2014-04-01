@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bills</title>
+</head>
+<body>
+<h2>Bills</h2>
+<h3>{{ who }}</h3>
+<h4>{{ datetime }}</h4>
+
+
+<table id="billsDatatable" border="1px">
+    <thead>
+    <tr>
+        {% if staff %}
+            <th>Company</th>
+        {% endif %}
+        <th>Advertisement</th>
+        <th>Ammount</th>
+        <th>Paid by</th>
+        <th>Time</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for b in bills %}
+
+    <tr>
+        {% if staff %}
+            <td>{{ b.name }}</td>
+        {% endif %}
+            <td>{{ b.title }}</td>
+            <td>{{ b.ammount }}</td>
+            <td>{{ b.paid_by }}</td>
+            <td>{{ b.time }}</td>
+
+    </tr>
+
+    {% endfor %}
+
+    </tbody>
+</table>
+</body>
+</html>

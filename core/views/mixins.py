@@ -3,7 +3,7 @@ __time__ = '6/18/13 2:11 AM'
 
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from apps.auth.decorators import staff_only
+from apps.auth.decorators import staff_only, superuseronly
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -19,6 +19,13 @@ class AdminMixin(object):
     @method_decorator(staff_only)
     def dispatch(self, request, *args, **kwargs):
         return super(AdminMixin, self).dispatch(request, *args, **kwargs)
+
+
+class SuperUserMixin(object):
+
+    @method_decorator(superuseronly)
+    def dispatch(self, request, *args, **kwargs):
+        return super(SuperUserMixin, self).dispatch(request, *args, **kwargs)
 
 
 class CSRFExemptMixin(object):

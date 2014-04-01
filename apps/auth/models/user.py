@@ -236,7 +236,7 @@ class PermissionsMixin(models.Model):
         return _user_has_module_perms(self, app_label)
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser):
 
     username = models.CharField(_('username'), max_length=30, null=True, blank=True,
                                 help_text=_('Required. 30 characters or fewer. Letters, numbers and '
@@ -245,6 +245,8 @@ class User(AbstractBaseUser, PermissionsMixin):
                                     validators.RegexValidator(re.compile('^[\w.@+-]+$'), _('Enter a valid username.'), 'invalid')
                                 ])
     name = models.CharField(max_length=200)
+
+    is_superuser = models.BooleanField(default=False)
 
     email = models.EmailField(_('email address'), unique=True)
 

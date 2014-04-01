@@ -1,6 +1,6 @@
+import cx_Oracle
 from django.db import models
 from apps.auth.models import User
-from apps.magency.models.bill import Bill
 from apps.magency.models.billboard import Billboard
 from apps.magency.models.website import Website
 from apps.magency.models.newspaper import Section
@@ -14,7 +14,6 @@ class Advertisement(models.Model):
     title = models.CharField(max_length=200)
     validity = models.DateField()
     media = models.FileField(upload_to="files", null=True, blank=True)
-    bill = models.ForeignKey(Bill)
 
     class Meta:
         app_label = "magency"

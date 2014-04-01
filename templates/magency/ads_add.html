@@ -1,0 +1,63 @@
+{% extends "magency/base.html" %}
+{% load form_attr %}
+{% block title %}{{ form2.instance|to_class_name }}{% endblock %}
+
+{% block content %}
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="span2"></div>
+            <div class="span6">
+                <div class="widget-box">
+                    <div class="widget-header">
+                        <h4>Add New {{ form2.instance|to_class_name }}</h4>
+
+                        <span class="widget-toolbar">
+                            <a href="#" data-action="collapse">
+                                <i class="icon-chevron-up"></i>
+                            </a>
+
+                            <a href="#" data-action="close">
+                                <i class="icon-remove"></i>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="widget-body">
+                        <br/>
+                    {{ form1.errors }}
+                    {{ form2.errors }}
+                        <form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% for field in form1 %}
+                                <div class="control-group">
+                                    <label class="control-label" for="form-field-1">{{ field.label_tag }}</label>
+
+                                    <div class="controls">
+                                        {{ field }}
+                                        <span class="lbl"></span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            {% for field in form2 %}
+                                <div class="control-group">
+                                    <label class="control-label" for="form-field-1">{{ field.label_tag }}</label>
+
+                                    <div class="controls">
+                                        {{ field }}
+                                        <span class="lbl"></span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            <div class="form-actions">
+                                <input type="submit" name='form1' class="btn btn-small btn-primary" value="Add {{ form1.instance|to_class_name }}"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="space-10"></div>
+{% endblock %}

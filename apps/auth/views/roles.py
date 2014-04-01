@@ -1,7 +1,7 @@
 from django.forms.models import modelformset_factory
 from var_dump import var_dump
 from apps.auth.forms.roleform import RoleMatrixForm
-from apps.auth.models import Role
+from apps.auth.models.role import Role
 
 __author__ = 'sha256'
 from core.views import SecuredView

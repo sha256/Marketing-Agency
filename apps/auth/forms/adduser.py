@@ -4,7 +4,7 @@ from apps.auth.models import User
 from django import forms
 from django.utils import timezone
 from django.contrib.auth.hashers import make_password
-from var_dump import var_dump
+
 
 
 class UserAddForm(forms.ModelForm):
@@ -15,7 +15,7 @@ class UserAddForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserAddForm, self).__init__(*args, **kwargs)
-        self.fields['role'].empty_label = "Select a Role"
+        #self.fields['role'].empty_label = "Select a Role"
        # self.fields['country'].queryset = Country.objects.exclude(code="all")
        # self.fields['country'].label_from_instance = lambda ob: ob.name
 
@@ -24,6 +24,7 @@ class UserAddForm(forms.ModelForm):
         form_data["last_login"] = timezone.now()
         form_data["date_joined"] = timezone.now()
         form_data["is_active"] = True
+        form_data['is_superuser'] = False
         password = form_data.get("password", None)
         repassword = form_data.get("repassword", None)
 

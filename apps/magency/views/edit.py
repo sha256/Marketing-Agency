@@ -1,15 +1,13 @@
-from django import forms
 from django.http import Http404
 from apps.magency.models import Newspaper, Section, Television, Program, Billboard, Website
 from core.views import SmartView
 from django.forms.models import modelform_factory
 from django.db import models
-from core.views.base import AdminView
 
 __author__ = 'sha256'
 
 
-class DomainView(AdminView):
+class DomainEditView(SmartView):
 
     def formfield_call_back(self, field, **kwargs):
         if isinstance(field, models.ForeignKey):
@@ -32,20 +30,29 @@ class DomainView(AdminView):
         form1_klass = None
         form2_klass = None
         valid = False
+        ins = None
 
         if self.what == "newspaper":
             form1_klass = Newspaper
-            form2_klass = Section
+            ins = Newspaper.objects.get(id=self.idx)
+        elif self.what == "section":
+            form1_klass = Section
+            ins = Section.objects.get(id=self.idx)
         elif self.what == "television":
             form1_klass = Television
-            form2_klass = Program
+            ins = Television.objects.get(id=self.idx)
+        elif self.what == "program":
+            form1_klass = Program
+            ins = Program.objects.get(id=self.idx)
         elif self.what == "billboard":
             form1_klass = Billboard
+            ins = Billboard.objects.get(id=self.idx)
         elif self.what == "internet":
             form1_klass = Website
+            ins = Website.objects.get(id=self.idx)
 
         Form1 = modelform_factory(form1_klass, formfield_callback=self.formfield_call_back)
-        newsf = Form1(request.POST or None)
+        newsf = Form1(request.POST or None, instance=ins)
 
         if form2_klass is not None:
             Form2 = modelform_factory(form2_klass, formfield_callback=self.formfield_call_back)
@@ -75,11 +82,13 @@ class DomainView(AdminView):
         return data
 
 
-    def get(self, request, what):
+    def get(self, request, what, idx):
         self.what = what
+        self.idx = idx
         return self.render(request, "magency/domains.html", {})
 
-    def post(self, request, what):
+    def post(self, request, what, idx):
+        self.idx = idx
         self.what = what
         return self.render(request, "magency/domains.html", {})
 

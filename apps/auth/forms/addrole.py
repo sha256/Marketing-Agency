@@ -1,7 +1,7 @@
 __author__ = 'sha256'
 
 from django.forms import ModelForm
-from apps.auth.models import Role
+from apps.auth.models.role import Role
 from django import forms
 from apps.auth.models.permission import Permission
 
